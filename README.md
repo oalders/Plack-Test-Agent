@@ -63,8 +63,6 @@ This method takes a URI and makes a `GET` request against the PSGI application
 with that URI. It returns an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object representing the results
 of that request.
 
-Any arguments you pass after the URI will be sent to the HTTP request constructor untouched.
-
 ### `post`
 
 This method takes a URI and makes a `POST` request against the PSGI
@@ -93,14 +91,18 @@ Thanks to Zbigniew Łukasiak and Tatsuhiko Miyagawa for suggestions.
 
 - chromatic <chromatic@wgz.org>
 - Dave Rolsky <autarch@urth.org>
+- Ran Eilam <ran.eilam@gmail.com>
+- Olaf Alders <olaf@wundercounter.com>
 
-# CONTRIBUTOR
+# CONTRIBUTORS
 
-Dave Rolsky <drolsky@maxmind.com>
+- Dave Rolsky <drolsky@maxmind.com>
+- Olaf Alders <oalders@maxmind.com>
+- Ran Eilam <reilam@maxmind.com>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2011 - 2014 by MaxMind, Inc..
+This software is copyright (c) 2011 - 2015 by MaxMind, Inc..
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

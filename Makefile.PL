@@ -11,7 +11,7 @@ use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
   "ABSTRACT" => "OO interface for testing low-level Plack/PSGI apps",
-  "AUTHOR" => "chromatic <chromatic\@wgz.org>, Dave Rolsky <autarch\@urth.org>",
+  "AUTHOR" => "chromatic <chromatic\@wgz.org>, Dave Rolsky <autarch\@urth.org>, Ran Eilam <ran.eilam\@gmail.com>, Olaf Alders <olaf\@wundercounter.com>",
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => 0
   },
@@ -36,6 +36,7 @@ my %WriteMakefileArgs = (
     "ExtUtils::MakeMaker" => 0,
     "File::Spec" => 0,
     "HTTP::Cookies" => 0,
+    "HTTP::Server::Simple" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
     "Modern::Perl" => 0,
@@ -60,6 +61,7 @@ my %FallbackPrereqs = (
   "HTTP::Message::PSGI" => 0,
   "HTTP::Request::Common" => 0,
   "HTTP::Response" => 0,
+  "HTTP::Server::Simple" => 0,
   "IO::Handle" => 0,
   "IPC::Open3" => 0,
   "Modern::Perl" => 0,

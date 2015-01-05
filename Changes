@@ -6,7 +6,9 @@
   creates internally. (Dave Rolsky)
 
 * Use Plack::Loader::load() rather than Plack::Loader::auto() if server arg has
-  been provided. (Olaf Alders)
+  been provided. Previously, the constructor did start a new server when the
+  server arg was defined, but it ignored the value of the server argument.
+  (Olaf Alders)
 
 1.20111011    2011-10-11
 

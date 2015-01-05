@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 use Plack::Test::Agent;
-use HTTP::Server::Simple;
+use HTTP::Server::Simple::PSGI;
 
 my $app = sub
 {

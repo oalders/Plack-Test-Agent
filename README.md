@@ -4,7 +4,7 @@ Plack::Test::Agent - OO interface for testing low-level Plack/PSGI apps
 
 # VERSION
 
-version 1.3
+version 1.4
 
 ## SYNOPSIS
 
@@ -121,7 +121,7 @@ Thanks to Zbigniew Łukasiak and Tatsuhiko Miyagawa for suggestions.
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2011 - 2015 by MaxMind, Inc..
+This software is copyright (c) 2011 - 2015 by chromatic.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

@@ -10,6 +10,8 @@
   server arg was defined, but it ignored the value of the server argument.
   (Olaf Alders)
 
+* Document get_mech(), normalize_uri() and start_server() (Olaf Alders)
+
 1.20111011    2011-10-11
 
 * Initial release

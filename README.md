@@ -33,6 +33,8 @@ over HTTP through a [Plack::Handler](https://metacpan.org/pod/Plack::Handler) co
 
 ## CONSTRUCTION
 
+### `new`
+
 The `new` constructor creates an instance of `Plack::Test::Agent`. This
 constructor takes one mandatory named argument and several optional arguments.
 
@@ -82,6 +84,23 @@ reference of key/value pairs for the form content:
 This method takes an [HTTP::Request](https://metacpan.org/pod/HTTP::Request), performs it against the bound app, and
 returns an [HTTP::Response](https://metacpan.org/pod/HTTP::Response). This allows you to craft your own requests
 directly.
+
+### `get_mech`
+
+Used internally to create a default UserAgent, if none is provided to the
+constructor.  Returns a Test::WWW::Mechanize::Bound object.
+
+### `normalize_uri`
+
+Used internally to ensure that all requests use the correct scheme, host and
+port.  The scheme and host default to `http` and `localhost` respectively,
+while the port is determined by [Test::TCP](https://metacpan.org/pod/Test::TCP).
+
+### `start_server`
+
+Starts a test server via [Test::TCP](https://metacpan.org/pod/Test::TCP).  If a `server` arg has been provided to
+the constructor, it will use this class to load a server.  Defaults to letting
+Plack::Loader decide which server class to use.
 
 ## CREDITS
 

@@ -166,6 +166,8 @@ B<NOTE:> This is an experimental module and its interface may change.
 
 =head2 CONSTRUCTION
 
+=head3 C<new>
+
 The C<new> constructor creates an instance of C<Plack::Test::Agent>. This
 constructor takes one mandatory named argument and several optional arguments.
 
@@ -223,6 +225,23 @@ reference of key/value pairs for the form content:
 This method takes an L<HTTP::Request>, performs it against the bound app, and
 returns an L<HTTP::Response>. This allows you to craft your own requests
 directly.
+
+=head3 C<get_mech>
+
+Used internally to create a default UserAgent, if none is provided to the
+constructor.  Returns a Test::WWW::Mechanize::Bound object.
+
+=head3 C<normalize_uri>
+
+Used internally to ensure that all requests use the correct scheme, host and
+port.  The scheme and host default to C<http> and C<localhost> respectively,
+while the port is determined by L<Test::TCP>.
+
+=head3 C<start_server>
+
+Starts a test server via L<Test::TCP>.  If a C<server> arg has been provided to
+the constructor, it will use this class to load a server.  Defaults to letting
+Plack::Loader decide which server class to use.
 
 =head2 CREDITS
 

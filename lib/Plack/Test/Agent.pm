@@ -139,6 +139,8 @@ package
 
 __END__
 
+=encoding utf-8
+
 =head2 SYNOPSIS
 
     use Test::More;

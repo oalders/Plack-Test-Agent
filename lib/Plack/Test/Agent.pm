@@ -10,8 +10,9 @@ use HTTP::Response;
 use HTTP::Message::PSGI;
 use HTTP::Request::Common;
 use Test::WWW::Mechanize;
+use HTTP::Cookies;
 
-use Plack::Util::Accessor qw( app host port server ua );
+use Plack::Util::Accessor qw( app host port server ua jar );
 
 sub new
 {
@@ -23,6 +24,7 @@ sub new
     $self->ua(   delete $args{ua}   );
     $self->host( delete $args{host} || 'localhost' );
     $self->port( delete $args{port} );
+    $self->jar(  delete $args{jar} || HTTP::Cookies->new );
 
     $self->start_server( delete $args{server} ) if $args{server};
 
@@ -56,11 +58,20 @@ sub execute_request
 {
     my ($self, $req) = @_;
 
+    if (!$self->server && $self->jar) {
+        $self->jar->add_cookie_header($req);
+    }
+
     my $res = $self->server
             ? $self->ua->request( $req )
             : HTTP::Response->from_psgi( $self->app->( $req->to_psgi ) );
 
     $res->request( $req );
+
+    if (!$self->server && $self->jar) {
+        $self->jar->extract_cookies($res);
+    }
+
     return $res;
 }
 
@@ -195,6 +206,9 @@ details on the selection of the port number.)
 L<LWP::UserAgent> interface such that it provides a C<request> method which
 takes an L<HTTP::Request> object and returns an L<HTTP::Response> object. The
 default is an instance of C<LWP::UserAgent>.
+
+=item * C<jar> is an optional argument for a L<HTTP::Cookies> instance that
+will be used as cookie jar for the requests, by default plain one is created.
 
 =back
 

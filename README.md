@@ -4,7 +4,7 @@ Plack::Test::Agent - OO interface for testing low-level Plack/PSGI apps
 
 # VERSION
 
-version 1.4
+version 1.5
 
 ## SYNOPSIS
 
@@ -54,6 +54,8 @@ details on the selection of the port number.)
 [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent) interface such that it provides a `request` method which
 takes an [HTTP::Request](https://metacpan.org/pod/HTTP::Request) object and returns an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object. The
 default is an instance of `LWP::UserAgent`.
+- `jar` is an optional argument for a [HTTP::Cookies](https://metacpan.org/pod/HTTP::Cookies) instance that
+will be used as cookie jar for the requests, by default plain one is created.
 
 ## METHODS
 
@@ -118,6 +120,8 @@ Thanks to Zbigniew Łukasiak and Tatsuhiko Miyagawa for suggestions.
 - Dave Rolsky <drolsky@maxmind.com>
 - Olaf Alders <oalders@maxmind.com>
 - Ran Eilam <reilam@maxmind.com>
+- Syohei YOSHIDA <syohex@gmail.com>
+- Torsten Raudssus <torsten@raudss.us>
 
 # COPYRIGHT AND LICENSE
 

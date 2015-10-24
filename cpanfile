@@ -1,3 +1,4 @@
+requires "HTTP::Cookies" => "0";
 requires "HTTP::Message::PSGI" => "0";
 requires "HTTP::Request::Common" => "0";
 requires "HTTP::Response" => "0";
@@ -13,14 +14,11 @@ requires "warnings" => "0";
 on 'test' => sub {
   requires "ExtUtils::MakeMaker" => "0";
   requires "File::Spec" => "0";
-  requires "HTTP::Cookies" => "0";
   requires "HTTP::Server::Simple::PSGI" => "0";
-  requires "IO::Handle" => "0";
-  requires "IPC::Open3" => "0";
   requires "Modern::Perl" => "0";
   requires "Plack::Request" => "0";
   requires "Test::Memory::Cycle" => "0";
-  requires "Test::More" => "0.88";
+  requires "Test::More" => "0.96";
   requires "Test::Requires" => "0";
   requires "open" => "0";
   requires "perl" => "5.008";
@@ -37,8 +35,15 @@ on 'configure' => sub {
 };
 
 on 'develop' => sub {
+  requires "Code::TidyAll" => "0.24";
+  requires "File::Spec" => "0";
+  requires "IO::Handle" => "0";
+  requires "IPC::Open3" => "0";
+  requires "Perl::Critic" => "1.123";
+  requires "Perl::Tidy" => "20140711";
   requires "Pod::Coverage::TrustPod" => "0";
   requires "Test::CPAN::Changes" => "0.19";
+  requires "Test::Code::TidyAll" => "0.24";
   requires "Test::EOL" => "0";
   requires "Test::More" => "0.88";
   requires "Test::NoTabs" => "0";
@@ -46,4 +51,5 @@ on 'develop' => sub {
   requires "Test::Pod::Coverage" => "1.08";
   requires "Test::Spelling" => "0.12";
   requires "Test::Synopsis" => "0";
+  requires "Test::Version" => "1";
 };

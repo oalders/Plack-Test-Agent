@@ -1,7 +1,5 @@
 package Plack::Test::Agent;
 
-# ABSTRACT: OO interface for testing low-level Plack/PSGI apps
-
 use strict;
 use warnings;
 
@@ -251,3 +249,6 @@ Plack::Loader decide which server class to use.
 =head2 CREDITS
 
 Thanks to Zbigniew E<0x141>ukasiak and Tatsuhiko Miyagawa for suggestions.
+=cut
+
+# ABSTRACT: OO interface for testing low-level Plack/PSGI apps

@@ -1,5 +1,4 @@
 {{$NEXT}}
-
 * Added cookie jar capability to non-server usage (Torsten Raudssus)
 
 1.4      2015-01-06

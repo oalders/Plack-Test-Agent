@@ -11,6 +11,6 @@ perl:
 notifications:
   email:
     recipients:
-      - dev@maxmind.com
+      - olaf@wundersolutions.com
     on_success: change
     on_failure: always

@@ -1,4 +1,5 @@
 package Plack::Test::Agent;
+
 # ABSTRACT: OO interface for testing low-level Plack/PSGI apps
 
 use strict;
@@ -14,61 +15,58 @@ use HTTP::Cookies;
 
 use Plack::Util::Accessor qw( app host port server ua jar );
 
-sub new
-{
-    my ($class, %args) = @_;
+sub new {
+    my ( $class, %args ) = @_;
 
     my $self = bless {}, $class;
 
-    $self->app(  delete $args{app}  );
-    $self->ua(   delete $args{ua}   );
+    $self->app( delete $args{app} );
+    $self->ua( delete $args{ua} );
     $self->host( delete $args{host} || 'localhost' );
     $self->port( delete $args{port} );
-    $self->jar(  delete $args{jar} || HTTP::Cookies->new );
+    $self->jar( delete $args{jar} || HTTP::Cookies->new );
 
     $self->start_server( delete $args{server} ) if $args{server};
 
     return $self;
 }
 
-sub start_server
-{
-    my ($self, $server_class) = @_;
+sub start_server {
+    my ( $self, $server_class ) = @_;
 
     my $app  = $self->app;
     my $host = $self->host;
 
     my $server = Test::TCP->new(
-        code => sub
-        {
+        code => sub {
             my $port = shift;
             my %args = ( host => $host, port => $port );
             return $server_class
-                ? Plack::Loader->load( $server_class, %args )->run( $app )
-                : Plack::Loader->auto( %args )->run( $app );
+                ? Plack::Loader->load( $server_class, %args )->run($app)
+                : Plack::Loader->auto(%args)->run($app);
         },
     );
 
     $self->port( $server->port );
     $self->ua( $self->get_mech ) unless $self->ua;
-    $self->server( $server );
+    $self->server($server);
 }
 
-sub execute_request
-{
-    my ($self, $req) = @_;
+sub execute_request {
+    my ( $self, $req ) = @_;
 
-    if (!$self->server && $self->jar) {
+    if ( !$self->server && $self->jar ) {
         $self->jar->add_cookie_header($req);
     }
 
-    my $res = $self->server
-            ? $self->ua->request( $req )
-            : HTTP::Response->from_psgi( $self->app->( $req->to_psgi ) );
+    my $res
+        = $self->server
+        ? $self->ua->request($req)
+        : HTTP::Response->from_psgi( $self->app->( $req->to_psgi ) );
 
-    $res->request( $req );
+    $res->request($req);
 
-    if (!$self->server && $self->jar) {
+    if ( !$self->server && $self->jar ) {
         $self->jar->extract_cookies($res);
     }
 
@@ -77,74 +75,65 @@ sub execute_request
 
 sub get {
     my ( $self, $uri, @args ) = @_;
-    my $req                   = GET $self->normalize_uri($uri), @args;
+    my $req = GET $self->normalize_uri($uri), @args;
     return $self->execute_request($req);
 }
 
-sub post
-{
-    my ($self, $uri, @args) = @_;
-    my $req                 = POST $self->normalize_uri($uri), @args;
-    return $self->execute_request( $req );
+sub post {
+    my ( $self, $uri, @args ) = @_;
+    my $req = POST $self->normalize_uri($uri), @args;
+    return $self->execute_request($req);
 }
 
-sub normalize_uri
-{
-    my ($self, $uri) = @_;
-    my $normalized   = URI->new( $uri );
-    my $port         = $self->port;
+sub normalize_uri {
+    my ( $self, $uri ) = @_;
+    my $normalized = URI->new($uri);
+    my $port       = $self->port;
 
-    $normalized->scheme( 'http' )      unless $normalized->scheme;
-    $normalized->host(   'localhost' ) unless $normalized->host;
-    $normalized->port( $port )         if $port;
+    $normalized->scheme('http')    unless $normalized->scheme;
+    $normalized->host('localhost') unless $normalized->host;
+    $normalized->port($port) if $port;
 
     return $normalized;
 }
 
-sub get_mech
-{
+sub get_mech {
     my $self = shift;
     return Test::WWW::Mechanize::Bound->new(
-        bound_uri => $self->normalize_uri( '/' )
-    );
+        bound_uri => $self->normalize_uri('/') );
 }
 
-package
-   Test::WWW::Mechanize::Bound;
+package Test::WWW::Mechanize::Bound;
 
-    use parent 'Test::WWW::Mechanize';
+use parent 'Test::WWW::Mechanize';
 
-    sub new
-    {
-        my ($class, %args) = @_;
-        my $bound_uri      = delete $args{bound_uri};
-        my $self           = $class->SUPER::new( %args );
-        $self->bound_uri( $bound_uri );
-        return $self;
+sub new {
+    my ( $class, %args ) = @_;
+    my $bound_uri = delete $args{bound_uri};
+    my $self      = $class->SUPER::new(%args);
+    $self->bound_uri($bound_uri);
+    return $self;
+}
+
+sub bound_uri {
+    my ( $self, $base_uri ) = @_;
+    $self->_elem( bound_uri => $base_uri ) if @_ == 2;
+    return $self->_elem('bound_uri');
+}
+
+sub prepare_request {
+    my $self  = shift;
+    my ($req) = @_;
+    my $uri   = $req->uri;
+    my $base  = $self->bound_uri;
+
+    unless ( $uri->scheme ) {
+        $uri->scheme( $base->scheme );
+        $uri->host( $base->host );
+        $uri->port( $base->port );
     }
-
-    sub bound_uri
-    {
-        my ($self, $base_uri) = @_;
-        $self->_elem( bound_uri => $base_uri ) if @_ == 2;
-        return $self->_elem( 'bound_uri' );
-    }
-
-    sub prepare_request
-    {
-        my $self  = shift;
-        my ($req) = @_;
-        my $uri   = $req->uri;
-        my $base  = $self->bound_uri;
-
-        unless ($uri->scheme)
-        {
-            $uri->scheme( $base->scheme );
-            $uri->host( $base->host );
-            $uri->port( $base->port );
-        }
-        return $self->SUPER::prepare_request( @_ );
-    }
+    return $self->SUPER::prepare_request(@_);
+}
 
 1;
 

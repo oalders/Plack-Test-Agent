@@ -1,5 +1,5 @@
 package Plack::Test::Agent;
-
+our $VERSION = '1.6';
 use strict;
 use warnings;
 
@@ -102,7 +102,7 @@ sub get_mech {
 }
 
 package Test::WWW::Mechanize::Bound;
-
+our $VERSION = '1.6';
 use parent 'Test::WWW::Mechanize';
 
 sub new {

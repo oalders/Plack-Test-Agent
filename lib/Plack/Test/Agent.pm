@@ -174,8 +174,6 @@ C<Plack::Test::Agent> is an OO interface to test PSGI applications. It can
 perform GET, POST, PUT and DELETE requests against PSGI applications either in
 process or over HTTP through a L<Plack::Handler> compatible backend.
 
-B<NOTE:> This is an experimental module and its interface may change.
-
 =head2 CONSTRUCTION
 
 =head3 C<new>

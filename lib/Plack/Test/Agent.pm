@@ -7,7 +7,7 @@ use Test::TCP;
 use Plack::Loader;
 use HTTP::Response;
 use HTTP::Message::PSGI;
-use HTTP::Request::Common;
+use HTTP::Request::Common qw/GET PUT DELETE POST/;
 use Test::WWW::Mechanize;
 use HTTP::Cookies;
 
@@ -80,6 +80,18 @@ sub get {
 sub post {
     my ( $self, $uri, @args ) = @_;
     my $req = POST $self->normalize_uri($uri), @args;
+    return $self->execute_request($req);
+}
+
+sub put {
+    my ( $self, $uri, @args ) = @_;
+    my $req = PUT $self->normalize_uri($uri), @args;
+    return $self->execute_request($req);
+}
+
+sub delete {
+    my ( $self, $uri, @args ) = @_;
+    my $req = DELETE $self->normalize_uri($uri), @args;
     return $self->execute_request($req);
 }
 
@@ -159,8 +171,8 @@ __END__
 =head2 DESCRIPTION
 
 C<Plack::Test::Agent> is an OO interface to test PSGI applications. It can
-perform GET and POST requests against PSGI applications either in process or
-over HTTP through a L<Plack::Handler> compatible backend.
+perform GET, POST, PUT and DELETE requests against PSGI applications either in
+process or over HTTP through a L<Plack::Handler> compatible backend.
 
 B<NOTE:> This is an experimental module and its interface may change.
 
@@ -222,6 +234,26 @@ reference of key/value pairs for the form content:
             eye_color => 'blue green',
             status    => 'twin',
         ]);
+
+=head3 C<put>
+
+This method takes a URI and makes a C<PUT> request against the PSGI
+application with that URI. It returns an L<HTTP::Response> object representing
+the results of that request. As an optional second parameter, pass an array
+reference of key/value pairs for the form content:
+
+    $agent->put( '/edit_user',
+        [
+            shoe_size => '10.5',
+            eye_color => 'blue green',
+            status    => 'twin',
+        ]);
+
+=head3 C<delete>
+
+This method takes a URI and makes a C<DELETE> request against the PSGI
+application with that URI. It returns an L<HTTP::Response> object representing
+the results of that request.
 
 =head3 C<execute_request>
 

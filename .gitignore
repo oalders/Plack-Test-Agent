@@ -3,3 +3,4 @@
 Plack-Test-Agent-*
 .tidyall.d/
 tidyall.ERR
+.perl-version

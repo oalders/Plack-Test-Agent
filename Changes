@@ -1,4 +1,4 @@
-{{$NEXT}}
+1.6       2025-07-05 01:02:12Z
 * Remove experimental note, given age of API (GH#2) (Andy Beverley)
 * Add PUT and DELETE HTTP methods (GH#1) (Andy Beverley)
 
